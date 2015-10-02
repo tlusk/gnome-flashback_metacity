@@ -1,9 +1,9 @@
 Summary: Unobtrusive window manager
 Name: metacity
-Version: 3.17.2
+Version: 3.18.0
 Release: 1%{?dist}
 URL: http://download.gnome.org/sources/metacity/
-Source0: http://download.gnome.org/sources/metacity/3.17/metacity-%{version}.tar.xz
+Source0: http://download.gnome.org/sources/metacity/3.18/metacity-%{version}.tar.xz
 # http://bugzilla.gnome.org/show_bug.cgi?id=558723
 Patch4: stop-spamming-xsession-errors.patch
 
@@ -14,32 +14,29 @@ Patch24: metacity-2.28-empty-keybindings.patch
 
 License: GPLv2+
 Group: User Interface/Desktops
-BuildRequires: gtk3-devel >= 3.15.2
-BuildRequires: pango-devel 
-BuildRequires: fontconfig-devel
-BuildRequires: gsettings-desktop-schemas-devel
-BuildRequires: desktop-file-utils
-BuildRequires: autoconf, automake, libtool, gnome-common
-BuildRequires: intltool
-BuildRequires: startup-notification-devel 
-BuildRequires: libtool automake autoconf gettext
-BuildRequires: xorg-x11-proto-devel 
+BuildRequires: pkgconfig(gtk+-3.0) >= 3.15.2
+BuildRequires: pkgconfig(gio-2.0) >= 2.25.10
+BuildRequires: pkgconfig(gsettings-desktop-schemas) >= 3.3.0
+BuildRequires: pkgconfig(pango) >= 1.2.0
+BuildRequires: pkgconfig(libcanberra-gtk3)
+BuildRequires: pkgconfig(libstartup-notification-1.0) >= 0.7
+BuildRequires: pkgconfig(xcomposite)
+BuildRequires: pkgconfig(xfixes)
+BuildRequires: pkgconfig(xrender)
+BuildRequires: pkgconfig(xdamage)
+BuildRequires: pkgconfig(xrender)
+BuildRequires: pkgconfig(xcursor)
+BuildRequires: pkgconfig(libgtop-2.0)
+BuildRequires: libXinerama-devel
 BuildRequires: libSM-devel, libICE-devel, libX11-devel
-BuildRequires: libXext-devel, libXinerama-devel, libXrandr-devel, libXrender-devel
-BuildRequires: libXcursor-devel
-BuildRequires: libXcomposite-devel, libXdamage-devel
-# for gnome-keybindings.pc
-BuildRequires: control-center 
+BuildRequires: desktop-file-utils
+BuildRequires: autoconf, automake, gettext-devel, intltool, libtool, gnome-common
 BuildRequires: yelp-tools
 BuildRequires: zenity
-BuildRequires: dbus-devel
-BuildRequires: libcanberra-devel
 BuildRequires: itstool
 
 Requires: startup-notification 
 Requires: gsettings-desktop-schemas
-# for /usr/share/control-center/keybindings, /usr/share/gnome/wm-properties
-Requires: control-center-filesystem
 Requires: zenity
 
 # http://bugzilla.redhat.com/605675
@@ -144,6 +141,9 @@ fi
 %{_mandir}/man1/metacity-window-demo.1.gz
 
 %changelog
+* Fri Oct 02 2015 Yaakov Selkowitz <yselkowi@redhat.com> - 3.18.0-1
+- Update to 3.18.0
+
 * Wed Jul 15 2015 Yaakov Selkowitz <yselkowi@redhat.com> - 3.17.2-1
 - Unstable version bump
 
