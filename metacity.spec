@@ -1,6 +1,6 @@
 Summary: Unobtrusive window manager
 Name: metacity
-Version: 3.18.0
+Version: 3.18.1
 Release: 1%{?dist}
 URL: http://download.gnome.org/sources/metacity/
 Source0: http://download.gnome.org/sources/metacity/3.18/metacity-%{version}.tar.xz
@@ -141,6 +141,9 @@ fi
 %{_mandir}/man1/metacity-window-demo.1.gz
 
 %changelog
+* Mon Oct 12 2015 Yaakov Selkowitz <yselkowi@redhat.com> - 3.18.1-1
+- Update to 3.18.0
+
 * Fri Oct 02 2015 Yaakov Selkowitz <yselkowi@redhat.com> - 3.18.0-1
 - Update to 3.18.0
 
