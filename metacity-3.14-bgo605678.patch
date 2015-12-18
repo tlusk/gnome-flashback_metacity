@@ -1,0 +1,51 @@
+From 396061c90f5ed4bfb72b176932e71ba71e514c4a Mon Sep 17 00:00:00 2001
+From: Dan Winship <danw@gnome.org>
+Date: Thu, 21 Jan 2010 10:10:44 -0500
+Subject: Work around Xlib 64-bit "specialness"
+
+When putting 32-bit properties into longs on 64-bit architectures,
+XGetWindowProperty assumes the values are supposed to be signed, and
+so it sign-extends values greater than 0x7fffffff. So if they *aren't*
+supposed to be signed, we need to chop off the high bits ourselves.
+
+(Most CARDINAL-valued properties only end up using small values
+anyway, so it doesn't matter, but _NET_WM_WINDOW_OPACITY uses the full
+range, and so was previously failing on 64-bit machines.)
+
+https://bugzilla.gnome.org/show_bug.cgi?id=605678
+
+diff --git a/src/core/xprops.c b/src/core/xprops.c
+index 1461377..f1560ca 100644
+--- a/src/core/xprops.c
++++ b/src/core/xprops.c
+@@ -262,6 +262,16 @@ cardinal_list_from_results (GetPropertyResults *results,
+   *n_cardinals_p = results->n_items;
+   results->prop = NULL;
+ 
++#if GLIB_SIZEOF_LONG == 8
++  /* Xlib sign-extends format=32 items, but we want them unsigned */
++  {
++    int i;
++
++    for (i = 0; i < *n_cardinals_p; i++)
++      (*cardinals_p)[i] = (*cardinals_p)[i] & 0xffffffff;
++  }
++#endif
++
+   return TRUE;
+ }
+ 
+@@ -606,6 +616,10 @@ cardinal_with_atom_type_from_results (GetPropertyResults *results,
+     return FALSE;
+ 
+   *cardinal_p = *(gulong*) results->prop;
++#if GLIB_SIZEOF_LONG == 8
++  /* Xlib sign-extends format=32 items, but we want them unsigned */
++  *cardinal_p &= 0xffffffff;
++#endif
+   XFree (results->prop);
+   results->prop = NULL;
+ 
+-- 
+cgit v0.10.1
+
