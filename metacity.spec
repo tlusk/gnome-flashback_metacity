@@ -1,6 +1,6 @@
 Summary: Unobtrusive window manager
 Name: metacity
-Version: 3.18.1
+Version: 3.18.3
 Release: 1%{?dist}
 URL: http://download.gnome.org/sources/metacity/
 Source0: http://download.gnome.org/sources/metacity/3.18/metacity-%{version}.tar.xz
@@ -74,7 +74,7 @@ export CPPFLAGS
 
 # Always rerun configure for now
 rm -f configure
-(if ! test -x configure; then autoreconf -i -f; fi;
+(if ! test -x configure; then autoreconf -i -f; intltoolize -c -f; fi;
  %configure --disable-static --disable-schemas-compile)
 
 SHOULD_HAVE_DEFINED="HAVE_SM HAVE_XINERAMA HAVE_XFREE_XINERAMA HAVE_RANDR HAVE_STARTUP_NOTIFICATION"
@@ -141,6 +141,9 @@ fi
 %{_mandir}/man1/metacity-window-demo.1.gz
 
 %changelog
+* Mon Apr 04 2016 Yaakov Selkowitz <yselkowi@redhat.com> - 3.18.3-1
+- new version
+
 * Mon Oct 12 2015 Yaakov Selkowitz <yselkowi@redhat.com> - 3.18.1-1
 - Update to 3.18.1
 
