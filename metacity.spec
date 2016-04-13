@@ -1,9 +1,12 @@
 Summary: Unobtrusive window manager
 Name: metacity
 Version: 3.18.3
-Release: 1%{?dist}
+Release: 2%{?dist}
 URL: http://download.gnome.org/sources/metacity/
 Source0: http://download.gnome.org/sources/metacity/3.18/metacity-%{version}.tar.xz
+# originally from gnome-themes-standard, dropped in 3.12
+Source1: metacity-theme-2.xml
+
 # http://bugzilla.gnome.org/show_bug.cgi?id=558723
 Patch4: stop-spamming-xsession-errors.patch
 
@@ -95,6 +98,8 @@ make CPPFLAGS="$CPPFLAGS" LIBS="$LIBS" %{?_smp_mflags}
 %install
 make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 
+install -m0644 %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/themes/Adwaita/metacity-1/
+
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
 # the desktop file is not valid, I've complained on metacity-devel-list
@@ -141,6 +146,9 @@ fi
 %{_mandir}/man1/metacity-window-demo.1.gz
 
 %changelog
+* Wed Apr 13 2016 Yaakov Selkowitz <yselkowi@redhat.com> - 3.18.3-2
+- Add gtk2 Adwaita theme for compiz
+
 * Mon Apr 04 2016 Yaakov Selkowitz <yselkowi@redhat.com> - 3.18.3-1
 - new version
 
