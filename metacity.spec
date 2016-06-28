@@ -1,11 +1,9 @@
 Summary: Unobtrusive window manager
 Name: metacity
-Version: 3.18.3
-Release: 2%{?dist}
+Version: 3.20.1.1
+Release: 1%{?dist}
 URL: http://download.gnome.org/sources/metacity/
-Source0: http://download.gnome.org/sources/metacity/3.18/metacity-%{version}.tar.xz
-# originally from gnome-themes-standard, dropped in 3.12
-Source1: metacity-theme-2.xml
+Source0: http://download.gnome.org/sources/metacity/3.20/metacity-%{version}.tar.xz
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=558723
 Patch4: stop-spamming-xsession-errors.patch
@@ -17,12 +15,12 @@ Patch24: metacity-2.28-empty-keybindings.patch
 
 License: GPLv2+
 Group: User Interface/Desktops
-BuildRequires: pkgconfig(gtk+-3.0) >= 3.15.2
-BuildRequires: pkgconfig(gio-2.0) >= 2.25.10
-BuildRequires: pkgconfig(gsettings-desktop-schemas) >= 3.3.0
-BuildRequires: pkgconfig(pango) >= 1.2.0
+BuildRequires: pkgconfig(gtk+-3.0) >= 3.19.2
+BuildRequires: pkgconfig(gio-2.0) >= 2.44.0
+BuildRequires: pkgconfig(gsettings-desktop-schemas)
+BuildRequires: pkgconfig(pango)
 BuildRequires: pkgconfig(libcanberra-gtk3)
-BuildRequires: pkgconfig(libstartup-notification-1.0) >= 0.7
+BuildRequires: pkgconfig(libstartup-notification-1.0)
 BuildRequires: pkgconfig(xcomposite)
 BuildRequires: pkgconfig(xfixes)
 BuildRequires: pkgconfig(xrender)
@@ -33,7 +31,7 @@ BuildRequires: pkgconfig(libgtop-2.0)
 BuildRequires: libXinerama-devel
 BuildRequires: libSM-devel, libICE-devel, libX11-devel
 BuildRequires: desktop-file-utils
-BuildRequires: autoconf, automake, gettext-devel, intltool, libtool, gnome-common
+BuildRequires: autoconf, automake, gettext-devel, libtool, gnome-common
 BuildRequires: yelp-tools
 BuildRequires: zenity
 BuildRequires: itstool
@@ -77,7 +75,7 @@ export CPPFLAGS
 
 # Always rerun configure for now
 rm -f configure
-(if ! test -x configure; then autoreconf -i -f; intltoolize -c -f; fi;
+(if ! test -x configure; then autoreconf -i -f; fi;
  %configure --disable-static --disable-schemas-compile)
 
 SHOULD_HAVE_DEFINED="HAVE_SM HAVE_XINERAMA HAVE_XFREE_XINERAMA HAVE_RANDR HAVE_STARTUP_NOTIFICATION"
@@ -97,8 +95,6 @@ make CPPFLAGS="$CPPFLAGS" LIBS="$LIBS" %{?_smp_mflags}
 
 %install
 make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
-
-install -m0644 %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/themes/Adwaita/metacity-1/
 
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
@@ -125,15 +121,12 @@ fi
 %{_bindir}/metacity
 %{_bindir}/metacity-message
 %{_datadir}/glib-2.0/schemas/*
-%{_datadir}/GConf/gsettings/metacity-schemas.convert
 %{_datadir}/metacity
-%{_datadir}/themes/*
 %{_datadir}/gnome-control-center/keybindings/*
 %{_libdir}/lib*.so.*
 %{_mandir}/man1/metacity.1.gz
 %{_mandir}/man1/metacity-message.1.gz
 %{_datadir}/applications/metacity.desktop
-%{_datadir}/gnome/wm-properties/metacity-wm.desktop
 
 %files devel
 %defattr(-,root,root,-)
@@ -146,6 +139,9 @@ fi
 %{_mandir}/man1/metacity-window-demo.1.gz
 
 %changelog
+* Tue Jun 28 2016 Yaakov Selkowitz <yselkowi@redhat.com> - 3.20.1.1-1
+- Update to 3.20.1.1
+
 * Wed Apr 13 2016 Yaakov Selkowitz <yselkowi@redhat.com> - 3.18.3-2
 - Add gtk2 Adwaita theme for compiz
 
