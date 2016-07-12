@@ -1,7 +1,7 @@
 Summary: Unobtrusive window manager
 Name: metacity
-Version: 3.18.3
-Release: 2%{?dist}
+Version: 3.18.5
+Release: 1%{?dist}
 URL: http://download.gnome.org/sources/metacity/
 Source0: http://download.gnome.org/sources/metacity/3.18/metacity-%{version}.tar.xz
 # originally from gnome-themes-standard, dropped in 3.12
@@ -146,6 +146,9 @@ fi
 %{_mandir}/man1/metacity-window-demo.1.gz
 
 %changelog
+* Tue Jul 12 2016 Yaakov Selkowitz <yselkowi@redhat.com> - 3.18.5-1
+- new version
+
 * Wed Apr 13 2016 Yaakov Selkowitz <yselkowi@redhat.com> - 3.18.3-2
 - Add gtk2 Adwaita theme for compiz
 
