@@ -1,9 +1,9 @@
 Summary: Unobtrusive window manager
 Name: metacity
-Version: 3.20.3
+Version: 3.22.0
 Release: 1%{?dist}
 URL: http://download.gnome.org/sources/metacity/
-Source0: http://download.gnome.org/sources/metacity/3.20/metacity-%{version}.tar.xz
+Source0: http://download.gnome.org/sources/metacity/3.22/metacity-%{version}.tar.xz
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=558723
 Patch4: stop-spamming-xsession-errors.patch
@@ -139,6 +139,9 @@ fi
 %{_mandir}/man1/metacity-window-demo.1.gz
 
 %changelog
+* Wed Sep 21 2016 Yaakov Selkowitz <yselkowi@redhat.com> - 3.22.0-1
+- Update to 3.22.0
+
 * Mon Sep 12 2016 Yaakov Selkowitz <yselkowi@redhat.com> - 3.20.3-1
 - new version
 
