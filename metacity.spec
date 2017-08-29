@@ -1,9 +1,10 @@
 Summary: Unobtrusive window manager
 Name: metacity
-Version: 3.14.3
-Release: 4%{?dist}
+Version: 3.22.1
+Release: 1%{?dist}
 URL: http://download.gnome.org/sources/metacity/
-Source0: http://download.gnome.org/sources/metacity/3.14/metacity-%{version}.tar.xz
+Source0: http://download.gnome.org/sources/metacity/3.22/metacity-%{version}.tar.xz
+
 # http://bugzilla.gnome.org/show_bug.cgi?id=558723
 Patch4: stop-spamming-xsession-errors.patch
 
@@ -12,37 +13,31 @@ Patch4: stop-spamming-xsession-errors.patch
 # https://bugzilla.gnome.org/show_bug.cgi?id=559816
 Patch24: metacity-2.28-empty-keybindings.patch
 
-Patch100: metacity-3.14-bgo605678.patch
-Patch101: metacity-3.14-bgo738562.patch
-
 License: GPLv2+
 Group: User Interface/Desktops
-BuildRequires: gtk3-devel >= 3.12.0
-BuildRequires: pango-devel 
-BuildRequires: fontconfig-devel
-BuildRequires: gsettings-desktop-schemas-devel
-BuildRequires: desktop-file-utils
-BuildRequires: autoconf, automake, libtool, gnome-common
-BuildRequires: intltool
-BuildRequires: startup-notification-devel 
-BuildRequires: libtool automake autoconf gettext
-BuildRequires: xorg-x11-proto-devel 
+BuildRequires: pkgconfig(gtk+-3.0) >= 3.22.10
+BuildRequires: pkgconfig(gio-2.0) >= 2.50.3
+BuildRequires: pkgconfig(gsettings-desktop-schemas)
+BuildRequires: pkgconfig(pango)
+BuildRequires: pkgconfig(libcanberra-gtk3)
+BuildRequires: pkgconfig(libstartup-notification-1.0)
+BuildRequires: pkgconfig(xcomposite)
+BuildRequires: pkgconfig(xfixes)
+BuildRequires: pkgconfig(xrender)
+BuildRequires: pkgconfig(xdamage)
+BuildRequires: pkgconfig(xrender)
+BuildRequires: pkgconfig(xcursor)
+BuildRequires: pkgconfig(libgtop-2.0)
+BuildRequires: libXinerama-devel
 BuildRequires: libSM-devel, libICE-devel, libX11-devel
-BuildRequires: libXext-devel, libXinerama-devel, libXrandr-devel, libXrender-devel
-BuildRequires: libXcursor-devel
-BuildRequires: libXcomposite-devel, libXdamage-devel
-# for gnome-keybindings.pc
-BuildRequires: control-center 
+BuildRequires: desktop-file-utils
+BuildRequires: autoconf, automake, gettext-devel, libtool, gnome-common
 BuildRequires: yelp-tools
 BuildRequires: zenity
-BuildRequires: dbus-devel
-BuildRequires: libcanberra-devel
 BuildRequires: itstool
 
-Requires: startup-notification 
+Requires: startup-notification
 Requires: gsettings-desktop-schemas
-# for /usr/share/control-center/keybindings, /usr/share/gnome/wm-properties
-Requires: control-center-filesystem
 Requires: zenity
 
 # http://bugzilla.redhat.com/605675
@@ -71,9 +66,6 @@ API. This package exists purely for technical reasons.
 #patch16 -p1 -b .focus-different-workspace
 %patch24 -p1 -b .empty-keybindings
 
-%patch100 -p1
-%patch101 -p1
-
 # force regeneration
 rm -f src/org.gnome.metacity.gschema.valid
 
@@ -86,7 +78,7 @@ rm -f configure
 (if ! test -x configure; then autoreconf -i -f; fi;
  %configure --disable-static --disable-schemas-compile)
 
-SHOULD_HAVE_DEFINED="HAVE_SM HAVE_XINERAMA HAVE_XFREE_XINERAMA HAVE_SHAPE HAVE_RANDR HAVE_STARTUP_NOTIFICATION"
+SHOULD_HAVE_DEFINED="HAVE_SM HAVE_XINERAMA HAVE_XFREE_XINERAMA HAVE_RANDR HAVE_STARTUP_NOTIFICATION"
 
 for I in $SHOULD_HAVE_DEFINED; do
   if ! grep -q "define $I" config.h; then
@@ -129,15 +121,12 @@ fi
 %{_bindir}/metacity
 %{_bindir}/metacity-message
 %{_datadir}/glib-2.0/schemas/*
-%{_datadir}/GConf/gsettings/metacity-schemas.convert
 %{_datadir}/metacity
-%{_datadir}/themes/*
 %{_datadir}/gnome-control-center/keybindings/*
 %{_libdir}/lib*.so.*
 %{_mandir}/man1/metacity.1.gz
 %{_mandir}/man1/metacity-message.1.gz
 %{_datadir}/applications/metacity.desktop
-%{_datadir}/gnome/wm-properties/metacity-wm.desktop
 
 %files devel
 %defattr(-,root,root,-)
@@ -150,6 +139,9 @@ fi
 %{_mandir}/man1/metacity-window-demo.1.gz
 
 %changelog
+* Tue Aug 29 2017 Timothy Lusk <tlusk@carbonblack.com> - 3.22.1-1
+- Version bump for GNOME Flashback 3.22.
+
 * Sun Jul 12 2015 Yaakov Selkowitz <yselkowi@redhat.com> - 3.14.3-4
 - Add upstream patch for GNOME bug 738562
 
