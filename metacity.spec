@@ -1,9 +1,9 @@
 Summary: Unobtrusive window manager
 Name: metacity
 Version: 3.22.1
-Release: 1%{?dist}
-URL: http://download.gnome.org/sources/metacity/
-Source0: http://download.gnome.org/sources/metacity/3.22/metacity-%{version}.tar.xz
+Release: 2%{?dist}
+URL: https://download.gnome.org/sources/metacity/
+Source0: https://download.gnome.org/sources/metacity/3.22/metacity-%{version}.tar.xz
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=558723
 Patch4: stop-spamming-xsession-errors.patch
@@ -139,6 +139,9 @@ fi
 %{_mandir}/man1/metacity-window-demo.1.gz
 
 %changelog
+* Tue May 10 2018 Timothy Lusk <tlusk@carbonblack.com> - 3.22.1-2
+- Rebuild for CentOS 7.5
+
 * Tue Aug 29 2017 Timothy Lusk <tlusk@carbonblack.com> - 3.22.1-1
 - Version bump for GNOME Flashback 3.22.
 
